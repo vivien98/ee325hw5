@@ -22,7 +22,7 @@
 % title("Sample Var vs Number of Samples for exponential RV");
 % figure;
 % histogram(values,50000);
-
+% 
 % %% Q2b)
 % mean_gauss = 5;
 % variance_gauss = 1; 
@@ -51,39 +51,31 @@
 % figure;
 % histogram(values,50000);
 
-%% Generating PDF using Accept/Reject method
+%% Q2c) Generating PDF using Accept/Reject method
 %Using Exponential to generate with Accept/reject
-number_of_samp=50000;
+number_of_samp=100000;
 mean_exp =1 ;
-c= 1.5;
+c= 2;
 values = zeros(1,number_of_samp);
 p_of_accepting = zeros(1,number_of_samp);
+total_iterations = total_iter
 for i=1:number_of_samp
-    iter_exceeded =1;
-    while iter_exceeded
+    while not_accepted
     X= rand;
     Z_0 =  -log(1-X);
     f_Z_0 = sqrt(2/pi)*exp(-(Z_0)^2/2);
     f1_Z_0 = exp(-Z_0);
     not_accepted=1;
-    total_iterations = 0;
     while not_accepted
          U=rand;
         if U <= f_Z_0/(c*f1_Z_0)
             values(i) = Z_0;
             not_accepted = 0;
-            iter_exceeded =0;
-            disp(i)
         end   
          total_iterations = total_iterations+1;
-         if(total_iterations>10000)
-             break 
-         end
-    end
-        
     end
     p_of_accepting(i) = 1/total_iterations;
 end
 figure;
 histogram(values,'Normalization','pdf');
-disp(['On an average the acceptance rate was ',num2str(sum(p_of_accepting)/number_of_samp)])
+disp(['The acceptance rate median was ',num2str(sum(p_of_accepting)/number_of_samp)])
