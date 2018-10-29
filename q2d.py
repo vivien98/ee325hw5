@@ -4,7 +4,7 @@ import math
 lam1 = 0.5
 lam2 = 0.5
 lam12 = 0.2
-N = 10000
+N = 100000
 
 def generateExp(lamda):
 	U = np.random.uniform()
@@ -36,13 +36,30 @@ def cdf(x1,x2,samples,numSamp):
 	count = count/numSamp
 	return count
 
+def mean(samp,numSamp):
+	sum1 = np.zeros(2)
+	for i in range(0,numSamp):
+		sum1 += samp[i]
+	sum1 = sum1/numSamp
+	return sum1
+
+def var(mean,samp,numSamp):
+	sum1 = np.zeros(2)
+	for i in range(0,numSamp):
+		sum1 += (samp[i]-mean)**2
+	sum1 /= numSamp
+	return sum1
+
 x1 = 1.0
 x2 = 4.0
 realCdf = math.exp(-lam1*x1-lam2*x2-lam12*max(x1,x2))
 samp = np.zeros((N,2))
 prob = 0.0
 generateSamples(N,samp,lam1,lam2,lam12)
-prob = cdf(x1,x2,samp,N)
-
+#prob = cdf(x1,x2,samp,N)
+avg = mean(samp,N)
+var = var(avg,samp,N)
 print(prob)
 print(realCdf)
+print(avg)
+print(var)
