@@ -112,10 +112,4 @@ avgQ = getTimeAverageOfQueueLen(meanQLen)
 
 print(avgQ)
 print(avgW)
-'''runQueueGivenMaxSlot(numSlots,qLen,timeSp,lam,m)
-print(qLen)
-print(timeSp)
-pl.plot(qLen)
-pl.plot(timeSp)
-pl.show()
-'''	
+
