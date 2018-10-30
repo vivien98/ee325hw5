@@ -3,12 +3,9 @@ import math
 import matplotlib.pyplot as pl
 
 lam = 0.5
-m = 0.6
-numSlots = 100
+m = 0.7
 
-qLen = [0]
-slotNum = 0
-timeSp = []
+
 
 
 def slot(qLength,lamda,mu,slotNum,arr,dep):
@@ -22,14 +19,11 @@ def slot(qLength,lamda,mu,slotNum,arr,dep):
 		leng = qLength[-1]
 		qLength.append(leng)
 	if U < lamda :
-		#last = queue[-1]
 		leng += 1
-		#queue.append()
 		qLength[-1] += 1
 		arr.append(slotNum)
 		arrival = 1
 	if V < mu and ((leng>0 and arrival==0) or (leng-1>0 and arrival==1)) and (not (slotNum==0)) :
-		#first = queue[0]
 		leng -= 1
 		qLength[-1] -= 1
 		dep.append(slotNum)
@@ -75,41 +69,47 @@ def getTimeSpentMean(lamda,mu,numSamplePaths,maxDep):
 		timesp = []
 		runQueueGivenMaxDep(maxDep,qlen,timesp,lamda,mu)
 		sum1 += timesp
-	sum1 = sum1/maxDep
+	sum1 = sum1/numSamplePaths
 	return sum1
 
-def getTimeAverageOfQueueLen(qLength):
+def getTimeAverage(qLength):
 	avgLen = 0.0
 	for i in range(0,len(qLength)):
 		avgLen += qLength[i]
 	avgLen/=len(qLength)
 	return avgLen
 
-def getTimeAverageOfTimeSpent(timeSpent):
-	avgTimeSpent = 0.0
-	for i in range(0,len(timeSpent)):
-		avgTimeSpent += timeSpent[i]
-	avgTimeSpent/=len(timeSpent)
-	return avgTimeSpent
+
 
 
 numSamplePaths = 100
 maxTime = 1000
 maxDep = 1000
+'''
+q = [0]
+tsp = []
+runQueueGivenMaxDep(maxDep,q,tsp,lam,m)
+print(q)
+print(tsp)
+pl.plot(q)
+pl.show()
+pl.plot(tsp)
+pl.show()
+'''
 meanQLen = np.zeros(maxTime)
 meanQLen = getQueueLenMean(lam,m,numSamplePaths,maxTime)
 meanTimeSpent = getTimeSpentMean(lam,m,numSamplePaths,maxDep)
-print(meanQLen)
+#print(meanQLen)
 pl.plot(meanQLen)
 pl.show()
-print(meanTimeSpent)
+#print(meanTimeSpent)
 pl.plot(meanTimeSpent)
 pl.show()
 avgW=0.0
 avgQ=0.0
-avgW = getTimeAverageOfTimeSpent(meanTimeSpent)
-avgQ = getTimeAverageOfQueueLen(meanQLen)
+avgW = getTimeAverage(meanTimeSpent)
+avgQ = getTimeAverage(meanQLen)
 
-print(avgQ)
-print(avgW)
+print("Average q size over time: " + '%.3f'%avgQ)
+print("Average time spent in q: " + '%.3f'%avgW)
 
